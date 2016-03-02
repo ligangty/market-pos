@@ -1,0 +1,24 @@
+.classpath
+.project
+.settings/
+target/
+.externalToolBuilders/
+*/target/*
+*/.settings/*
+.pmd
+*/.pmd
+*/reports/*
+rebuild.sh
+restart.sh
+target
+.settings/*
+!.settings/.jsdtscope
+
+#idea ignore
+*.iml
+*.swp
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+

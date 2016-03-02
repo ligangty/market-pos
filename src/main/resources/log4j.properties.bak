@@ -1,0 +1,46 @@
+### direct log messages to stdout:System.out ###
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %c - %5p - %m%n
+#debuging
+log4j.appender.debug=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.debug.file=/usr/local/web/logs/CZCRM/Debug.log
+log4j.appender.debug.DatePattern='.'yyyy-MM-dd
+log4j.appender.debug.layout=org.apache.log4j.PatternLayout
+log4j.appender.debug.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss}- %c{1}:%L - %p - %m%n
+#exception
+log4j.appender.exception=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.exception.file=/usr/local/web/logs/CZCRM/Exception.log
+log4j.appender.exception.Threshold=error
+log4j.appender.exception.DatePattern='.'yyyy-MM-dd
+log4j.appender.exception.layout=org.apache.log4j.PatternLayout
+log4j.appender.exception.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %c - %p - %m%n
+
+#CheckOrder
+#log4j.appender.DRF_CheckOrder=org.apache.log4j.RollingFileAppender
+#log4j.appender.DRF_CheckOrder.File=/usr/local/web/logs/CZCRM/CheckOrder.log
+#log4j.appender.DRF_CheckOrder.DatePattern='.'yyyy-MM-dd
+#log4j.appender.DRF_CheckOrder.layout=org.apache.log4j.PatternLayout
+#log4j.appender.DRF_CheckOrder.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} - %m%n
+
+#Hibernate
+log4j.appender.file=org.apache.log4j.FileAppender  
+log4j.appender.file.File=/usr/local/web/logs/CZCRM/hibernate.log  
+log4j.appender.file.layout=org.apache.log4j.PatternLayout  
+log4j.appender.file.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n 
+
+################################################################################################################################
+#log4j.rootLogger=off
+log4j.logger.org.springframework=DEBUG
+log4j.logger.org.hibernate=INFO
+log4j.logger.org.hibernate.SQL=ERROR 
+log4j.logger.org.hibernate.hql=ERROR 
+log4j.logger.org.hibernate.cache=DEBUG
+log4j.logger.org.hibernate.transaction=DEBUG
+log4j.logger.org.hibernate.jdbc=DEBUG
+log4j.logger.org.hibernate.ps.PreparedStatementCache=WARN
+log4j.logger.com.czcrm=DEBUG
+#log4j.logger.Logger_CheckOrder=info,DRF_CheckOrder,stdout
+###############################################################################
+
