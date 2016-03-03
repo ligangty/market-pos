@@ -2,11 +2,10 @@
 
 <tiles-definitions>
 
-
     <definition name="defaultTemplate" template="/WEB-INF/template/default_template.jsp">
         <put-attribute name="header" value="/WEB-INF/template/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/template/footer.jsp" />
-        <put-attribute name="otherCss" value="" />
+				<put-attribute name="otherCss" value=" " />
         <put-attribute name="useDefaultScript" value="false" />
         <put-attribute name="otherScript" value=" " />
     </definition>

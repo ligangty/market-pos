@@ -1,0 +1,20 @@
+{
+  "products": [
+    {"name":"可口可乐", "number":"3", "unit":"瓶", "price":"3.00", "total":"6.00"},
+    {"name":"羽毛球", "number":"6", "unit":"个", "price":"1.00", "total":"4.00"},
+    {"name":"苹果", "number":"2", "unit":"斤", "price":"5.50", "total":"10.45", "save":"0.55"}
+  ],
+
+  "priceOff": [
+    {
+      "name": "买2赠1商品",
+      "products": [
+        {"name":"可口可乐", "number":"1"},
+        {"name":"羽毛球", "number":"2"}
+      ]
+    }
+  ],
+
+  "total": "20.45",
+  "save": "5.55"
+}

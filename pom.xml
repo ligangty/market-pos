@@ -20,9 +20,6 @@
         <tiles.version>3.0.3</tiles.version>
         <servlet.version>3.1.0</servlet.version>
         <tomcat.version>7.0.52</tomcat.version>
-        <mybatis.version>3.2.3</mybatis.version>
-        <mybatis.spring.version>1.2.1</mybatis.spring.version>
-        <commons.fileupload.version>1.3</commons.fileupload.version>
         <aspectj.weaver.version>1.5.4</aspectj.weaver.version>
         <joda-time.version>2.3</joda-time.version>
         <com.google.code.gson.version>2.2.4</com.google.code.gson.version>
@@ -69,11 +66,6 @@
                 <version>${joda-time.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons.fileupload.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
@@ -107,16 +99,6 @@
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-jsp-api</artifactId>
                 <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis.spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -213,11 +195,6 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
-        <!-- commons fileupload -->
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
         <!-- log4j -->
         <dependency>
             <groupId>log4j</groupId>
@@ -258,15 +235,6 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jsp-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-        </dependency>
-        <!-- mybatis-spring integration -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
         </dependency>
         <!-- spring -->
         <dependency>
@@ -398,8 +366,8 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
                     <url>http://localhost:8080/manager/text</url>
-                    <server>tomcat7</server> <!-- same with setting.xml server setting -->
-                    <path>/personfi</path>  <!-- project context -->
+                    <server>tomcat7</server> <!-- same with .m2/settings.xml server setting -->
+                    <path>/pos</path>  <!-- project context -->
                     <username>tomcat</username>
                     <password>tomcat</password>
                 </configuration>

@@ -17,10 +17,10 @@
 
 <!-- Le styles -->
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/js/lib/bootstrap/css/bootstrap.css"
+	href="${pageContext.request.contextPath}/js/lib/bootstrap/css/bootstrap.min.css"
 	media="screen">
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/js/lib/bootstrap/css/bootstrap-responsive.css"
+	href="${pageContext.request.contextPath}/js/lib/bootstrap/css/bootstrap-responsive.min.css"
 	media="screen">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/pos.css"
@@ -42,13 +42,13 @@
 	<tilesx:useAttribute name="useDefaultScript" />
 	<c:if test="${useDefaultScript=='true'}">
 		<script
-			src="${pageContext.request.contextPath}/js/lib/jquery/jquery-1.9.1.js"></script>
+			src="${pageContext.request.contextPath}/js/lib/jquery/jquery-1.9.1.min.js"></script>
 		<script
 			src="${pageContext.request.contextPath}/js/lib/jquery.i18n.js"></script>
 		<script src="${pageContext.request.contextPath}/js/pos.js"></script>
 		<script src="${pageContext.request.contextPath}/js/messages_zh_CN.js"></script>
 		<script
-			src="${pageContext.request.contextPath}/js/lib/bootstrap/js/bootstrap.js"></script>
+			src="${pageContext.request.contextPath}/js/lib/bootstrap/js/bootstrap.min.js"></script>
 	</c:if>
 	<tiles:insertAttribute name="otherScript" />
 </body>
