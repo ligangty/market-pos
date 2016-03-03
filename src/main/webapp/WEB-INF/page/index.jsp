@@ -5,6 +5,16 @@
 	<tiles:putAttribute name="content">
         <div class="span10">
             <div class="row-fluid">
+                <div class="span9 account_border_bottom SummaryTxt" style="display:none">
+                    <b class="fLe">***<没钱赚商店>购物条形码输入***</b>
+                </div>
+                <div class="span9" style="display:none">
+                    <form action="#">
+                        <p />
+                        <p><textarea id="barCode" rows=10 cols=40 name="barCode"></textarea></p>
+                        <p><button id="submitBarCode" class="btn">发送</button></p>
+                    </form>
+                </div>
                 <div class="span9 account_border_bottom SummaryTxt">
                     <b class="fLe">***<没钱赚商店>购物清单***</b>
                 </div>
