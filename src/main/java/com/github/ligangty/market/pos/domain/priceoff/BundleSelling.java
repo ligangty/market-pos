@@ -5,13 +5,21 @@ import com.github.ligangty.market.pos.domain.Product;
 /**
  * Created by gli on 3/3/16.
  */
-public class BundleStrategy implements PriceOffStrategy {
+public class BundleSelling implements PriceOffStrategy {
+
 	private int bundleBaseNum;
 	private int giveNum;
+	private String name;
 
-	public BundleStrategy(int bundleBaseNum, int giveNum) {
+	public BundleSelling(int bundleBaseNum, int giveNum) {
 		this.bundleBaseNum = bundleBaseNum;
 		this.giveNum = giveNum;
+	}
+
+	public BundleSelling(int bundleBaseNum, int giveNum, String name) {
+		this.bundleBaseNum = bundleBaseNum;
+		this.giveNum = giveNum;
+		this.name = name;
 	}
 
 	@Override
@@ -29,5 +37,14 @@ public class BundleStrategy implements PriceOffStrategy {
 	@Override
 	public double calculateOffedTotalPrice(double soldAmount, Product product) {
 		throw new RuntimeException("This strategy does support this method");
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

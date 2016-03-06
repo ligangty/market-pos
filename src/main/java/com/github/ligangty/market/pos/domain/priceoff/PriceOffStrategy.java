@@ -8,4 +8,6 @@ public interface PriceOffStrategy {
 
 	double calculateOffedTotalPrice(int soldAmount, Product product);
 
+	String getName();
+
 }

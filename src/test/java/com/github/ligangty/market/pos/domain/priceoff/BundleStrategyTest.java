@@ -13,7 +13,7 @@ public class BundleStrategyTest {
 	@Test
 	public void testCalculateTotalPrice() {
 
-		PriceOffStrategy discount = new BundleStrategy(2, 1);
+		PriceOffStrategy discount = new BundleSelling(2, 1);
 
 		Product product = new Product("ITEM000001", "羽毛球", 1.00, "个");
 		assertEquals(1.00, discount.calculateOffedTotalPrice(1, product), 0.01);
@@ -33,7 +33,7 @@ public class BundleStrategyTest {
 		assertEquals(201.00, discount.calculateOffedTotalPrice(100, product), 0.01);
 
 
-		discount = new BundleStrategy(5, 2);
+		discount = new BundleSelling(5, 2);
 
 		product = new Product("ITEM000001", "羽毛球", 1.00, "个");
 		assertEquals(1.00, discount.calculateOffedTotalPrice(1, product), 0.01);

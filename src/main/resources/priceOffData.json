@@ -1,0 +1,21 @@
+{
+  "priceOff": [
+    {
+      "id": 1,
+      "name": "买2赠1商品",
+      "products": [
+        "ITEM000001",
+        "ITEM000005"
+      ]
+    },
+
+    {
+      "id": 2,
+      "name": "打折",
+      "discount": "0.95",
+      "products":[
+        "ITEM000003"
+      ]
+    }
+  ]
+}

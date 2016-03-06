@@ -5,11 +5,11 @@
 	<tiles:putAttribute name="content">
         <div class="span10">
             <div class="row-fluid">
-                <div class="span9 account_border_bottom SummaryTxt" style="display:none">
+                <div class="span9 account_border_bottom SummaryTxt" style="display:block">
                     <b class="fLe">***<没钱赚商店>购物条形码输入***</b>
                 </div>
-                <div class="span9" style="display:none">
-                    <form action="#">
+                <div class="span9" style="display:block">
+                    <form id="barCodeForm" name="barCodeForm" action="#">
                         <p />
                         <p><textarea id="barCode" rows=10 cols=40 name="barCode"></textarea></p>
                         <p><button id="submitBarCode" class="btn">发送</button></p>
@@ -53,7 +53,7 @@
     <tiles:putAttribute name="otherScript">
         <script>
             !(function(){
-                Pos.getResult("${pageContext.request.contextPath}");
+                Pos.init("${pageContext.request.contextPath}");
               }());
         </script>
     </tiles:putAttribute>

@@ -13,7 +13,7 @@ public class DiscountStrategyTest {
 	@Test
 	public void testCalculateTotalPrice() {
 
-		PriceOffStrategy discount = new DiscountStrategy(0.95);
+		PriceOffStrategy discount = new PriceDiscount(0.95);
 
 		Product product = new Product("ITEM000001", "羽毛球", 1.00, "个");
 		assertEquals(0.95, discount.calculateOffedTotalPrice(1, product), 0.01);
