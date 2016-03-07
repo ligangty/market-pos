@@ -3,6 +3,8 @@ package com.github.ligangty.market.pos.service;
 import com.github.ligangty.market.pos.data.ProductDataLoader;
 import com.github.ligangty.market.pos.domain.Product;
 import com.github.ligangty.market.pos.domain.priceoff.BundleSelling;
+import com.github.ligangty.market.pos.domain.priceoff.PriceDiscount;
+import com.github.ligangty.market.pos.domain.priceoff.PriceOffStrategy;
 import com.github.ligangty.market.pos.web.view.PriceOffProductView;
 import com.github.ligangty.market.pos.web.view.ProductView;
 import com.github.ligangty.market.pos.web.view.ProductsCheckoutView;
@@ -54,39 +56,42 @@ public class ProductsService {
 			final String barCode = entry.getKey();
 			final Number number = entry.getValue();
 			final Product product = ProductDataLoader.getProductByBarcode(barCode);
-			final ProductView productView = new ProductView(barCode, number.toString(), product.getUnit(),
+			final PriceOffStrategy priceOff = product.getPriceOff();
+			final ProductView productView = new ProductView(product.getName(), number.toString(), product.getUnit(),
 			                                                "" + product.getPrice(), null);
 			Double actualTotal = 0.0;
 			if (number instanceof Double) {
 				actualTotal = roundHalfUpWithTwoPlacies(
-					product.getPriceOff().calculateOffedTotalPrice(number.doubleValue(), product));
+					priceOff.calculateOffedTotalPrice(number.doubleValue(), product));
 			} else if (number instanceof Integer) {
 				actualTotal = roundHalfUpWithTwoPlacies(
-					product.getPriceOff().calculateOffedTotalPrice(number.intValue(), product));
+					priceOff.calculateOffedTotalPrice(number.intValue(), product));
 			}
 			productView.setTotal(actualTotal + "");
 
 			final double saved = roundHalfUpWithTwoPlacies(product.getPrice() * number.doubleValue() - actualTotal);
-			productView.setSave("" + saved);
+			if(priceOff  instanceof PriceDiscount) {
+				productView.setSave("" + saved);
+			}
 
 			totalSaved += saved;
 			total += actualTotal;
 
 			productViews.add(productView);
 
-			if (product.getPriceOff() instanceof BundleSelling) {
-				final BundleSelling priceOff = (BundleSelling)product.getPriceOff();
-				final String priceOffName = priceOff.getName();
+			if (priceOff instanceof BundleSelling) {
+				final BundleSelling bundlePriceOff = (BundleSelling)priceOff;
+				final String priceOffName = bundlePriceOff.getName();
 				PriceOffProductView priceOffProductView = priceOffProductViews.get(priceOffName);
 				if (priceOffProductView == null) {
 					priceOffProductView = new PriceOffProductView();
 					priceOffProductView.setName(priceOffName);
 				}
-				final ProductView priceOffProduct = new ProductView(product.getName(), number.intValue() + "",
+				final ProductView priceOffProduct = new ProductView(product.getName(), null,
 				                                                    product.getUnit(), null, null);
-				priceOffProduct.setGiveNumber(priceOff.calculateGivenNumber(number.intValue()).toString());
+				priceOffProduct.setGiveNumber(bundlePriceOff.calculateGivenNumber(number.intValue()).toString());
 				priceOffProductView.getProducts().add(priceOffProduct);
-				priceOffProductViews.put(priceOff.getName(), priceOffProductView);
+				priceOffProductViews.put(bundlePriceOff.getName(), priceOffProductView);
 			}
 		}
 

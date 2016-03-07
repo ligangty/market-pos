@@ -2,9 +2,6 @@ package com.github.ligangty.market.pos.domain.priceoff;
 
 import com.github.ligangty.market.pos.domain.Product;
 
-/**
- * Created by gli on 3/3/16.
- */
 public class PriceDiscount implements PriceOffStrategy {
 	private double discount;
 	private String name;

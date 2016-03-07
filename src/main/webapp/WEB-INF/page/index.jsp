@@ -18,29 +18,14 @@
                 <div class="span9 account_border_bottom SummaryTxt">
                     <b class="fLe">***<没钱赚商店>购物清单***</b>
                 </div>
-                <!-- when no records, display this -->
-                <div class="span9 account_border_bottom alert" style="display: none">
-                    <span> <img src="${pageContext.request.contextPath}/images/ico_info2.gif">暂无购物记录</a>
-                    </span>
-                </div>
-                <!-- when there are records, display this -->
-                <div class="span9">
+                <div id="showResult" class="span9">
                    <p />
-                   <ul>
-                      <li>名称：可口可乐，数量：3瓶，单价：3.00(元)，小计：6.00(元)</li>
-                      <li>名称：羽毛球，数量：6个，单价：1.00(元)，小计：4.00(元)</li>
-                      <li>名称：苹果，数量：2斤，单价：5.50(元)，小计：10.45(元)，节省0.55(元)</li>
+                   <ul id="productsList">
                    </ul>
-                   <p>----------------------</p>
-                   <p>买二赠一商品：</p>
-                   <ul>
-                      <li>名称：可口可乐，数量：1瓶</li>
-                      <li>名称：羽毛球，数量：2个</li>
-                   </ul>
+                   <div id="priceOffResult">
+                   </div>
                    <span>----------------------</span>
-                   <div>
-                      <p>总计：20.45(元)</p>
-                      <p>节省：5.55(元)</p>
+                   <div id="showTotal">                      
                    </div>
                 </div>
                 <!--/span-->
@@ -58,4 +43,3 @@
         </script>
     </tiles:putAttribute>
 </tiles:insertDefinition>
-

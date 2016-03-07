@@ -48,7 +48,9 @@ public class ProductsController {
 		if(barCodes!=null){
 			ProductsCheckoutView view = productsService.calculateCheckout(barCodes);
 			if(view != null){
-				return new Gson().toJson(view);
+				final String jsonResult = new Gson().toJson(view);
+				LOG.debug(jsonResult);
+				return jsonResult;
 			}
 		}
 		return "";
