@@ -2,9 +2,6 @@ package com.github.ligangty.market.pos.domain.priceoff;
 
 import com.github.ligangty.market.pos.domain.Product;
 
-/**
- * Created by gli on 3/3/16.
- */
 public class BundleSelling implements PriceOffStrategy {
 
 	private int bundleBaseNum;
@@ -37,6 +34,17 @@ public class BundleSelling implements PriceOffStrategy {
 	@Override
 	public double calculateOffedTotalPrice(double soldAmount, Product product) {
 		throw new RuntimeException("This strategy does support this method");
+	}
+
+	public Integer calculateGivenNumber(int soldAmount) {
+		final int bundleNum = bundleBaseNum + giveNum;
+		final int priceOffProductNum = (int) Math.floor(soldAmount / bundleNum);
+		int result = giveNum * priceOffProductNum;
+		final int modGiveNum = soldAmount % bundleNum - bundleBaseNum;
+		if (modGiveNum > 0) {
+			result += modGiveNum;
+		}
+		return result;
 	}
 
 	@Override

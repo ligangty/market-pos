@@ -5,7 +5,7 @@ import com.github.ligangty.market.pos.domain.priceoff.PriceOffStrategy;
 public class Product {
 	private String barCode;
 	private String name;
-	private double price;
+	private Double price;
 	private String unit;
 	private PriceOffStrategy priceOff;
 
@@ -35,11 +35,11 @@ public class Product {
 		this.name = name;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

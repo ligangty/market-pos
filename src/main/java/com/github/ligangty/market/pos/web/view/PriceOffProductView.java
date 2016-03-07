@@ -1,10 +1,11 @@
 package com.github.ligangty.market.pos.web.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PriceOffProductView {
 	private String name;
-	private List<ProductView> products;
+	private List<ProductView> products = new ArrayList<>();
 
 	public String getName() {
 		return name;

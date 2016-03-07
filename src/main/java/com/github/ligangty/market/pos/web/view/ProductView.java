@@ -4,12 +4,14 @@ public class ProductView {
 
 	private String name;
 	private String number;
+	private String giveNumber;
 	private String unit;
 	private String price;
 	private String total;
 	private String save;
 
-	public ProductView() {}
+	public ProductView() {
+	}
 
 	public ProductView(String name, String number, String unit, String price, String total) {
 		this.name = name;
@@ -33,6 +35,14 @@ public class ProductView {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public String getGiveNumber() {
+		return giveNumber;
+	}
+
+	public void setGiveNumber(String giveNumber) {
+		this.giveNumber = giveNumber;
 	}
 
 	public String getUnit() {

@@ -3,10 +3,12 @@ package com.github.ligangty.market.pos.web;
 import java.util.List;
 
 import com.github.ligangty.market.pos.service.ProductsService;
+import com.github.ligangty.market.pos.web.view.ProductsCheckoutView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ProductsController {
 
-	ProductsService productsService;
+	@Autowired
+	private ProductsService productsService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(ProductsController.class);
 
@@ -40,6 +43,13 @@ public class ProductsController {
 		} catch (JsonSyntaxException e) {
 			LOG.error("json format error: ", e);
 			throw e;
+		}
+
+		if(barCodes!=null){
+			ProductsCheckoutView view = productsService.calculateCheckout(barCodes);
+			if(view != null){
+				return new Gson().toJson(view);
+			}
 		}
 		return "";
 	}
