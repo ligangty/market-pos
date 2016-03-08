@@ -2,6 +2,9 @@ package com.github.ligangty.market.pos.domain;
 
 import com.github.ligangty.market.pos.domain.priceoff.PriceOffStrategy;
 
+/**
+ * Mapping object for productsData.json
+ */
 public class Product {
 	private String barCode;
 	private String name;

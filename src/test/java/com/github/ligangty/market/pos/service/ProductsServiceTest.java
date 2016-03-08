@@ -14,17 +14,18 @@ public class ProductsServiceTest {
 	@Test
 	public void test() {
 		List<String> barCodes = Arrays
-			.asList("ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000003-2",
-			        "ITEM000005", "ITEM000005", "ITEM000005");
+			.asList("ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000002",
+			        "ITEM000002", "ITEM000002", "ITEM000002", "ITEM000002", "ITEM000003-2", "ITEM000004-3", "ITEM000005",
+			        "ITEM000005", "ITEM000005");
 
 		ProductsCheckoutView view = service.calculateCheckout(barCodes);
 
 		assertNotNull(view);
-		assertEquals(3, view.getProducts().size());
+		assertEquals(5, view.getProducts().size());
 		assertEquals(1, view.getPriceOff().size());
 		assertEquals(2, view.getPriceOff().get(0).getProducts().size());
-		assertEquals("20.45", view.getTotal());
-		assertEquals("5.55", view.getTotalSave());
+		assertEquals("49.38", view.getTotal());
+		assertEquals("7.12", view.getTotalSave());
 
 		barCodes = Arrays.asList("ITEM000003-2");
 
@@ -36,9 +37,7 @@ public class ProductsServiceTest {
 		assertEquals("10.45", view.getTotal());
 		assertEquals("0.55", view.getTotalSave());
 
-
-		barCodes = Arrays
-			.asList("ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001");
+		barCodes = Arrays.asList("ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001", "ITEM000001");
 
 		view = service.calculateCheckout(barCodes);
 

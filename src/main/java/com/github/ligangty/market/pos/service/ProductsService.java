@@ -17,34 +17,14 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * Service class to provide product check out logic.
+ */
 public class ProductsService {
 
 	public ProductsCheckoutView calculateCheckout(List<String> barCodes) {
-		final Map<String, Number> productSellingResult = new HashMap<>();
-		for (String originalBarcode : barCodes) {
-			String barCode = originalBarcode;
-			final Number result = productSellingResult.get(barCode);
-			if (originalBarcode.contains("-")) {
-				final String[] itemWithNumber = analyzeBarcode(originalBarcode);
-				barCode = itemWithNumber[0];
-				if (ProductDataLoader.hasProduct(barCode)) {
-					final Double itemNumber = Double.parseDouble(itemWithNumber[1]);
-					if (result == null) {
-						productSellingResult.put(barCode, itemNumber);
-					} else {
-						productSellingResult.put(barCode, itemNumber + result.doubleValue());
-					}
-				}
-			} else {
-				if (ProductDataLoader.hasProduct(barCode)) {
-					if (result == null) {
-						productSellingResult.put(barCode, 1);
-					} else {
-						productSellingResult.put(barCode, result.intValue() + 1);
-					}
-				}
-			}
-		}
+		// collect the product ordered numbers with a <barcode, number> map
+		final Map<String, Number> productsOrderedResult = collectProductOrderedNum(barCodes);
 
 		final ProductsCheckoutView checkoutView = new ProductsCheckoutView();
 
@@ -52,25 +32,18 @@ public class ProductsService {
 		final Map<String, PriceOffProductView> priceOffProductViews = new HashMap<>();
 		Double totalSaved = 0.0;
 		Double total = 0.0;
-		for (Map.Entry<String, Number> entry : productSellingResult.entrySet()) {
+		for (Map.Entry<String, Number> entry : productsOrderedResult.entrySet()) {
 			final String barCode = entry.getKey();
-			final Number number = entry.getValue();
+			final Number orderedNumber = entry.getValue();
 			final Product product = ProductDataLoader.getProductByBarcode(barCode);
-			final PriceOffStrategy priceOff = product.getPriceOff();
-			final ProductView productView = new ProductView(product.getName(), number.toString(), product.getUnit(),
+
+			final ProductView productView = new ProductView(product.getName(), orderedNumber.toString(), product.getUnit(),
 			                                                "" + product.getPrice(), null);
-			Double actualTotal = 0.0;
-			if (number instanceof Double) {
-				actualTotal = roundHalfUpWithTwoPlacies(
-					priceOff.calculateOffedTotalPrice(number.doubleValue(), product));
-			} else if (number instanceof Integer) {
-				actualTotal = roundHalfUpWithTwoPlacies(
-					priceOff.calculateOffedTotalPrice(number.intValue(), product));
-			}
+			Double actualTotal = calculateActualTotal(product, orderedNumber);
 			productView.setTotal(actualTotal + "");
 
-			final double saved = roundHalfUpWithTwoPlacies(product.getPrice() * number.doubleValue() - actualTotal);
-			if(priceOff  instanceof PriceDiscount) {
+			final double saved = roundHalfUpWithTwoPlacies(product.getPrice() * orderedNumber.doubleValue() - actualTotal);
+			if (product.getPriceOff() instanceof PriceDiscount) {
 				productView.setSave("" + saved);
 			}
 
@@ -79,21 +52,11 @@ public class ProductsService {
 
 			productViews.add(productView);
 
-			if (priceOff instanceof BundleSelling) {
-				final BundleSelling bundlePriceOff = (BundleSelling)priceOff;
-				final String priceOffName = bundlePriceOff.getName();
-				PriceOffProductView priceOffProductView = priceOffProductViews.get(priceOffName);
-				if (priceOffProductView == null) {
-					priceOffProductView = new PriceOffProductView();
-					priceOffProductView.setName(priceOffName);
-				}
-				final ProductView priceOffProduct = new ProductView(product.getName(), null,
-				                                                    product.getUnit(), null, null);
-				priceOffProduct.setGiveNumber(bundlePriceOff.calculateGivenNumber(number.intValue()).toString());
-				priceOffProductView.getProducts().add(priceOffProduct);
-				priceOffProductViews.put(bundlePriceOff.getName(), priceOffProductView);
-			}
+			makePriceOffProductViewForOrder(product, orderedNumber, priceOffProductViews);
 		}
+
+		totalSaved = roundHalfUpWithTwoPlacies(totalSaved);
+		total = roundHalfUpWithTwoPlacies(total);
 
 		checkoutView.setProducts(productViews);
 		checkoutView.setTotalSave(totalSaved.toString());
@@ -101,6 +64,69 @@ public class ProductsService {
 		checkoutView.setPriceOff(new ArrayList<>(priceOffProductViews.values()));
 
 		return checkoutView;
+	}
+
+	private Map<String, Number> collectProductOrderedNum(List<String> barCodes) {
+		final Map<String, Number> productsOrderedResult = new HashMap<>();
+		for (String originalBarcode : barCodes) {
+			String barCode = originalBarcode;
+			final Number result = productsOrderedResult.get(barCode);
+			if (originalBarcode.contains("-")) {
+				final String[] itemWithNumber = analyzeBarcode(originalBarcode);
+				barCode = itemWithNumber[0];
+				if (ProductDataLoader.hasProduct(barCode)) {
+					final Double itemNumber = Double.parseDouble(itemWithNumber[1]);
+					if (result == null) {
+						productsOrderedResult.put(barCode, itemNumber);
+					} else {
+						productsOrderedResult.put(barCode, itemNumber + result.doubleValue());
+					}
+				}
+			} else {
+				if (ProductDataLoader.hasProduct(barCode)) {
+					if (result == null) {
+						productsOrderedResult.put(barCode, 1);
+					} else {
+						productsOrderedResult.put(barCode, result.intValue() + 1);
+					}
+				}
+			}
+		}
+
+		return productsOrderedResult;
+	}
+
+	private Double calculateActualTotal(Product product, Number orderedNumber) {
+		final PriceOffStrategy priceOff = product.getPriceOff();
+		Double actualTotal = 0.0;
+		if (priceOff != null) {
+			if (orderedNumber instanceof Double) {
+				actualTotal = roundHalfUpWithTwoPlacies(
+					priceOff.calculateOffedTotalPrice(orderedNumber.doubleValue(), product));
+			} else if (orderedNumber instanceof Integer) {
+				actualTotal = roundHalfUpWithTwoPlacies(priceOff.calculateOffedTotalPrice(orderedNumber.intValue(), product));
+			}
+		} else {
+			actualTotal = roundHalfUpWithTwoPlacies(product.getPrice() * orderedNumber.doubleValue());
+		}
+		return actualTotal;
+	}
+
+	private void makePriceOffProductViewForOrder(Product product, Number orderedNumber,
+	                                             Map<String, PriceOffProductView> priceOffProductViews) {
+		if (product.getPriceOff() instanceof BundleSelling) {
+			final BundleSelling bundlePriceOff = (BundleSelling) product.getPriceOff();
+			final String priceOffName = bundlePriceOff.getName();
+			PriceOffProductView priceOffProductView = priceOffProductViews.get(priceOffName);
+			if (priceOffProductView == null) {
+				priceOffProductView = new PriceOffProductView();
+				priceOffProductView.setName(priceOffName);
+			}
+			final ProductView priceOffProduct = new ProductView(product.getName(), null, product.getUnit(), null, null);
+			priceOffProduct.setGiveNumber(bundlePriceOff.calculateGivenNumber(orderedNumber.intValue()).toString());
+			priceOffProductView.getProducts().add(priceOffProduct);
+			priceOffProductViews.put(bundlePriceOff.getName(), priceOffProductView);
+		}
 	}
 
 	private Double roundHalfUpWithTwoPlacies(Double original) {

@@ -16,6 +16,24 @@
       "products":[
         "ITEM000003"
       ]
+    },
+
+    {
+      "id": 3,
+      "name": "打折",
+      "discount": "0.85",
+      "products":[
+        "ITEM000004"
+      ]
+    },
+
+    {
+      "id": 4,
+      "name": "买5赠2商品",
+      "products": [
+        "ITEM000006"
+      ]
     }
+
   ]
 }

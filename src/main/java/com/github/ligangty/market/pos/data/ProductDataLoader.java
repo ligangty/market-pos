@@ -21,7 +21,8 @@ import static com.google.common.base.Preconditions.checkState;
 /**
  * Used to load the Product and PriceOff meta data.
  * Because all data is stored as a simple json data file,
- * to be simple, make all method as static.
+ * to be simple, make all method as static and init the
+ * meta data loading in a static block
  * <p>
  * If the data will be stored in database, need to do as normal
  * way for data fetch layer.
@@ -48,6 +49,11 @@ public class ProductDataLoader {
 		establishProductsWithPriceOff();
 	}
 
+	/**
+	 * Load all products meta data from classpath:productsData.json
+	 *
+	 * @throws IOException
+	 */
 	private static void loadProducts() throws IOException {
 		products.clear();
 		InputStream stream = ProductDataLoader.class.getResourceAsStream("/productsData.json");
@@ -89,6 +95,11 @@ public class ProductDataLoader {
 		}
 	}
 
+	/**
+	 * Load all price off strategies meta data from classpath:priceOffData.json
+	 *
+	 * @throws IOException
+	 */
 	private static void loadPriceOff() throws IOException {
 		priceOffs.clear();
 		InputStream stream = ProductDataLoader.class.getResourceAsStream("/priceOffData.json");
@@ -137,6 +148,10 @@ public class ProductDataLoader {
 		}
 	}
 
+	/**
+	 * When products and price off meta data loading done,
+	 * establish the relationship between these two meta data.
+	 */
 	private static void establishProductsWithPriceOff() {
 		checkState(!products.isEmpty(), "products can not be empty");
 		for (PriceOff priceOff : priceOffs) {
@@ -150,16 +165,29 @@ public class ProductDataLoader {
 		}
 	}
 
+	/**
+	 * @param priceOff - the meta data object mapping to priceOffData.json
+	 * @return the PriceOffStrategy object which includes the algorithm of the price off way
+	 */
 	public static PriceOffStrategy getPriceOffStrategy(PriceOff priceOff) {
-		if (priceOff.getId().equals("1")) {
-			return new BundleSelling(2, 1, priceOff.getName());
+		switch (priceOff.getId()) {
+			case "1":
+				return new BundleSelling(2, 1, priceOff.getName());
+			case "2":
+				return new PriceDiscount(Double.parseDouble(priceOff.getDiscount()), priceOff.getName());
+			case "3":
+				return new PriceDiscount(Double.parseDouble(priceOff.getDiscount()), priceOff.getName());
+			case "4":
+				return new BundleSelling(5, 2, priceOff.getName());
+			default:
+				return null;
 		}
-		if (priceOff.getId().equals("2")) {
-			return new PriceDiscount(Double.parseDouble(priceOff.getDiscount()), priceOff.getName());
-		}
-		return null;
 	}
 
+	/**
+	 * @param barCode product bar code
+	 * @return
+	 */
 	public static Product getProductByBarcode(String barCode) {
 		checkState(!products.isEmpty(), "products can not be empty");
 		for (Product product : products) {
@@ -174,11 +202,11 @@ public class ProductDataLoader {
 		return getProductByBarcode(barCode) != null;
 	}
 
-	public static List<Product> getAllProducts() {
+	static List<Product> getAllProducts() {
 		return Collections.unmodifiableList(products);
 	}
 
-	public static List<PriceOff> getAllPriceOffs() {
+	static List<PriceOff> getAllPriceOffs() {
 		return Collections.unmodifiableList(priceOffs);
 	}
 }

@@ -2,6 +2,9 @@ package com.github.ligangty.market.pos.domain;
 
 import java.util.List;
 
+/**
+ * Mapping object for priceOffData.json
+ */
 public class PriceOff {
 	private String id;
 	private String name;

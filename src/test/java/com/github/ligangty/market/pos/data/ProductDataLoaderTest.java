@@ -13,8 +13,8 @@ public class ProductDataLoaderTest {
 
 	@Test
 	public void testInit() throws IOException {
-		assertEquals(3, ProductDataLoader.getAllProducts().size());
-		assertEquals(2, ProductDataLoader.getAllPriceOffs().size());
+		assertEquals(6, ProductDataLoader.getAllProducts().size());
+		assertEquals(4, ProductDataLoader.getAllPriceOffs().size());
 	}
 
 	@Test
@@ -25,7 +25,7 @@ public class ProductDataLoaderTest {
 		assertEquals("个", product.getUnit());
 		assertEquals(1.00, product.getPrice(), 0.001);
 
-		product = ProductDataLoader.getProductByBarcode("ITEM000004");
+		product = ProductDataLoader.getProductByBarcode("ITEM000007");
 		assertNull(product);
 	}
 
@@ -37,5 +37,10 @@ public class ProductDataLoaderTest {
 		assertNotNull(strategy);
 		assertEquals("买2赠1商品", strategy.getName());
 
+		product = ProductDataLoader.getProductByBarcode("ITEM000006");
+		strategy = product.getPriceOff();
+
+		assertNotNull(strategy);
+		assertEquals("买5赠2商品", strategy.getName());
 	}
 }
