@@ -1,0 +1,100 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+//        classpath 'com.bmuschko:gradle-tomcat-plugin:2.2.4',
+//                  'com.bmuschko:gradle-cargo-plugin:2.2.2'
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'war'
+//apply plugin: 'com.bmuschko.tomcat'
+//apply plugin: 'com.bmuschko.tomcat-base'
+//apply plugin: 'com.bmuschko.cargo'
+apply plugin: 'org.akhikhl.gretty'
+
+group = 'com.github.ligangty.market.pos'
+version = '0.1'
+
+description = """Market pos device"""
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+// War file name
+war.baseName = 'pos'
+
+
+repositories {
+     mavenLocal()
+     mavenCentral()
+     maven { url "http://repository.jboss.org/nexus/content/groups/public/" }
+     maven { url "http://download.java.net/maven/2/" }
+}
+
+dependencies {
+    compile group: 'com.google.guava', name: 'guava', version:'17.0'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.2.4'
+    compile group: 'log4j', name: 'log4j', version:'1.2.17'
+
+    def slf4jVersion='1.7.5'
+    compile "org.slf4j:slf4j-api:${slf4jVersion}",
+            "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
+            "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+
+    compile group: 'org.apache.tiles', name: 'tiles-extras', version:'3.0.3'
+
+    def springVersion='3.2.11.RELEASE'
+    compile("org.springframework:spring-core:${springVersion}") {
+        exclude(module: 'commons-logging')
+    }
+    compile("org.springframework:spring-context:${springVersion}") {
+        exclude(module: 'commons-logging')
+    }
+    compile "org.springframework:spring-beans:${springVersion}",
+            "org.springframework:spring-webmvc:${springVersion}"
+
+    def springSecurityVersion='3.2.5.RELEASE'
+    compile "org.springframework.security:spring-security-core:${springSecurityVersion}",
+            "org.springframework.security:spring-security-config:${springSecurityVersion}",
+            "org.springframework.security:spring-security-web:${springSecurityVersion}"
+
+    compile group: 'aspectj', name: 'aspectjweaver', version:'1.5.4'
+    runtime group: 'javax.servlet', name: 'jstl', version:'1.2'
+    testCompile group: 'junit', name: 'junit', version:'4.10'
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.0'
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
+    providedCompile group: 'org.apache.tomcat', name: 'tomcat-jsp-api', version:'7.0.52'
+
+//    def tomcatVersion = '7.0.59'
+//    def cargoVersion = '1.4.5'
+//    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+//            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+//    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"){
+//        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+//        cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}", "org.codehaus.cargo:cargo-ant:${cargoVersion}"
+//    }
+//    cargo "org.codehaus.cargo:cargo-core-uberjar:${cargoVersion}",
+//            "org.codehaus.cargo:cargo-ant:${cargoVersion}"
+}
+
+//cargo {
+//    containerId = 'tomcat7x'
+//    port = 8080
+//
+//    local {
+//        def tomcatVersion = "7.0.59"
+//        installer {
+//            installUrl = "http://archive.apache.org/dist/tomcat/tomcat-7/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.zip"
+//            downloadDir = file("$buildDir/download")
+//            extractDir = file("$buildDir/extract")
+//        }
+//        outputFile = file("container/apache-tomcat-${tomcatVersion}/output2.log")
+//    }
+//}

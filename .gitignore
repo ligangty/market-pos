@@ -22,3 +22,8 @@ target
 .idea/
 .idea_modules/
 
+#grade ignore
+.gradle
+gradle
+build
+container
